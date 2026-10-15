@@ -4,7 +4,7 @@ import segno
 import io
 @st.dialog("Create New Subject")
 def  share_subject_dialog(subject_name,subject_code):
-    app_domain =  "snapclasses-mainss.streamlit.app"  #http://localhost:8501
+    app_domain =  "snapclasses-mains.streamlit.app"  #http://localhost:8501
     join_url = f"{app_domain}/?join-code={subject_code}"
     st.header("Scan To Join")
     qr = segno.make(join_url)
