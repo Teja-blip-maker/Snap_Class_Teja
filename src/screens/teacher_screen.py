@@ -16,9 +16,8 @@ import time
 import pandas as pd
 from src.components.dialog_attendance_results import attendance_result_dialog
 from src.components.dialog_voice_attended import voice_attendance_dialog
-def teacher_screen():
 
-    
+def teacher_screen():    
     style_background_dashboard()
     style_base_layout()
     if "teacher_data" in st.session_state:
@@ -80,21 +79,19 @@ def teacher_tab_take_attendance():
             st.warning("You have't created any subjects yet! Please create one to begin")
             return 
       subject_options = {f"{s['name']} - {s['subject_code']}": s['subject_id'] for s in subjects}
-      col1,col2 = st.columns([3,1],vertical_alignment='bottom')
+      col1,col2 = st.columns([3,1])
       with col1:
+            if st.session_state.attendance_images:
+                  st.header("Added Photos")
+                  gallery_cols = st.columns(2)
+                  for idx,img in enumerate(st.session_state.attendance_images):
+                        with gallery_cols[idx % 2]:
+                              st.image(img,width='stretch',caption=f'Photo{idx+1}')
             selected_subject_label = st.selectbox('Select Subject',options=list(subject_options.keys()))
       with col2:
             if st.button('Add photos',type='primary',icon=':material/photo_prints:',width='stretch'):
                   add_photos_dialog()
-            selected_subject_id = subject_options[selected_subject_label]
-            st.divider()
-      
-            if st.session_state.attendance_images:
-                  st.header("Added Photos")
-                  gallery_cols = st.columns(3)
-                  for idx,img in enumerate(st.session_state.attendance_images):
-                        with gallery_cols[idx % 3]:
-                              st.image(img,width=300,caption=f'Photo{idx+1}')
+      selected_subject_id = subject_options[selected_subject_label]
                   
       has_photos = bool(st.session_state.attendance_images)
       c1,c2,c3 = st.columns(3)
